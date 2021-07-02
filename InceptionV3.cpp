@@ -4,15 +4,15 @@
 CInceptionV3::CInceptionV3(): COcvDnnProcess()
 {
     m_pParam = std::make_shared<CInceptionV3Param>();
-    addOutput(std::make_shared<CGraphicsProcessOutput>());
-    addOutput(std::make_shared<CMeasureProcessIO>());
+    addOutput(std::make_shared<CGraphicsOutput>());
+    addOutput(std::make_shared<CMeasureIO>());
 }
 
 CInceptionV3::CInceptionV3(const std::string &name, const std::shared_ptr<CInceptionV3Param> &pParam): COcvDnnProcess(name)
 {
     m_pParam = std::make_shared<CInceptionV3Param>(*pParam);
-    addOutput(std::make_shared<CGraphicsProcessOutput>());
-    addOutput(std::make_shared<CMeasureProcessIO>());
+    addOutput(std::make_shared<CGraphicsOutput>());
+    addOutput(std::make_shared<CMeasureIO>());
 }
 
 size_t CInceptionV3::getProgressSteps()
@@ -28,7 +28,7 @@ int CInceptionV3::getNetworkInputSize() const
 void CInceptionV3::run()
 {
     beginTaskRun();
-    auto pInput = std::dynamic_pointer_cast<CImageProcessIO>(getInput(0));
+    auto pInput = std::dynamic_pointer_cast<CImageIO>(getInput(0));
     auto pParam = std::dynamic_pointer_cast<CInceptionV3Param>(m_pParam);
 
     if(pInput == nullptr || pParam == nullptr)
@@ -96,13 +96,13 @@ void CInceptionV3::manageOutput(cv::Mat &dnnOutput)
     double confidence = dnnOutput.at<float>(classId);
 
     //Graphics output
-    auto pGraphicsOutput = std::dynamic_pointer_cast<CGraphicsProcessOutput>(getOutput(1));
+    auto pGraphicsOutput = std::dynamic_pointer_cast<CGraphicsOutput>(getOutput(1));
     assert(pGraphicsOutput);
     pGraphicsOutput->setNewLayer("InceptionV3");
     pGraphicsOutput->setImageIndex(0);
 
     //Measures output
-    auto pMeasureOutput = std::dynamic_pointer_cast<CMeasureProcessIO>(getOutput(2));
+    auto pMeasureOutput = std::dynamic_pointer_cast<CMeasureIO>(getOutput(2));
     pMeasureOutput->clearData();
 
     //We don't create the final CGraphicsText instance here for thread-safety reason

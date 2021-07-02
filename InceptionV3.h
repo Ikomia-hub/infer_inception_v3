@@ -53,7 +53,7 @@ class INCEPTIONV3SHARED_EXPORT CInceptionV3: public COcvDnnProcess
 //-------------------------------//
 //----- CInceptionV3Factory -----//
 //-------------------------------//
-class INCEPTIONV3SHARED_EXPORT CInceptionV3Factory : public CProcessFactory
+class INCEPTIONV3SHARED_EXPORT CInceptionV3Factory : public CTaskFactory
 {
     public:
 
@@ -86,7 +86,7 @@ class INCEPTIONV3SHARED_EXPORT CInceptionV3Factory : public CProcessFactory
             m_info.m_version = "1.0.0";
         }
 
-        virtual ProtocolTaskPtr create(const ProtocolTaskParamPtr& pParam) override
+        virtual WorkflowTaskPtr create(const WorkflowTaskParamPtr& pParam) override
         {
             auto pManifoldParam = std::dynamic_pointer_cast<CInceptionV3Param>(pParam);
             if(pManifoldParam != nullptr)
@@ -94,7 +94,7 @@ class INCEPTIONV3SHARED_EXPORT CInceptionV3Factory : public CProcessFactory
             else
                 return create();
         }
-        virtual ProtocolTaskPtr create() override
+        virtual WorkflowTaskPtr create() override
         {
             auto pManifoldParam = std::make_shared<CInceptionV3Param>();
             assert(pManifoldParam != nullptr);
@@ -113,7 +113,7 @@ class INCEPTIONV3SHARED_EXPORT CInceptionV3Widget: public COcvWidgetDnnCore
         {
             init();
         }
-        CInceptionV3Widget(ProtocolTaskParamPtr pParam, QWidget *parent = Q_NULLPTR): COcvWidgetDnnCore(pParam, parent)
+        CInceptionV3Widget(WorkflowTaskParamPtr pParam, QWidget *parent = Q_NULLPTR): COcvWidgetDnnCore(pParam, parent)
         {
             m_pParam = std::dynamic_pointer_cast<CInceptionV3Param>(pParam);
             init();
@@ -144,7 +144,7 @@ class INCEPTIONV3SHARED_EXPORT CInceptionV3WidgetFactory : public CWidgetFactory
             m_name = QObject::tr("InceptionV3").toStdString();
         }
 
-        virtual ProtocolTaskWidgetPtr   create(ProtocolTaskParamPtr pParam)
+        virtual WorkflowTaskWidgetPtr   create(WorkflowTaskParamPtr pParam)
         {
             return std::make_shared<CInceptionV3Widget>(pParam);
         }
@@ -161,7 +161,7 @@ class INCEPTIONV3SHARED_EXPORT CInceptionV3Interface : public QObject, public CP
 
     public:
 
-        virtual std::shared_ptr<CProcessFactory> getProcessFactory()
+        virtual std::shared_ptr<CTaskFactory> getProcessFactory()
         {
             return std::make_shared<CInceptionV3Factory>();
         }
