@@ -121,14 +121,15 @@ class INCEPTIONV3SHARED_EXPORT CInceptionV3Widget: public COcvWidgetDnnCore
 
     private:
 
-        void init() override
+        void init()
         {
             if(m_pParam == nullptr)
                 m_pParam = std::make_shared<CInceptionV3Param>();
+        }
 
-            auto pParam = std::dynamic_pointer_cast<CInceptionV3Param>(m_pParam);
-            assert(pParam);
-            connect(m_pApplyBtn, &QPushButton::clicked, [&]{ emit doApplyProcess(m_pParam); } );
+        void onApply() override
+        {
+            emit doApplyProcess(m_pParam);
         }
 };
 
