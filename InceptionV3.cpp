@@ -5,14 +5,14 @@ CInceptionV3::CInceptionV3(): COcvDnnProcess()
 {
     m_pParam = std::make_shared<CInceptionV3Param>();
     addOutput(std::make_shared<CGraphicsOutput>());
-    addOutput(std::make_shared<CMeasureIO>());
+    addOutput(std::make_shared<CBlobMeasureIO>());
 }
 
 CInceptionV3::CInceptionV3(const std::string &name, const std::shared_ptr<CInceptionV3Param> &pParam): COcvDnnProcess(name)
 {
     m_pParam = std::make_shared<CInceptionV3Param>(*pParam);
     addOutput(std::make_shared<CGraphicsOutput>());
-    addOutput(std::make_shared<CMeasureIO>());
+    addOutput(std::make_shared<CBlobMeasureIO>());
 }
 
 size_t CInceptionV3::getProgressSteps()
@@ -102,7 +102,7 @@ void CInceptionV3::manageOutput(cv::Mat &dnnOutput)
     pGraphicsOutput->setImageIndex(0);
 
     //Measures output
-    auto pMeasureOutput = std::dynamic_pointer_cast<CMeasureIO>(getOutput(2));
+    auto pMeasureOutput = std::dynamic_pointer_cast<CBlobMeasureIO>(getOutput(2));
     pMeasureOutput->clearData();
 
     //We don't create the final CGraphicsText instance here for thread-safety reason
