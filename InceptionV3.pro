@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 QT += core gui widgets sql
-TARGET = InceptionV3
+TARGET = infer_inception_v3
 
 win32: DESTDIR = $$(USERPROFILE)/Ikomia/Plugins/C++/$$TARGET
 unix: DESTDIR = $$(HOME)/Ikomia/Plugins/C++/$$TARGET
