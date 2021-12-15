@@ -22,7 +22,15 @@ size_t CInceptionV3::getProgressSteps()
 
 int CInceptionV3::getNetworkInputSize() const
 {
-    return 224;
+    int size = 224;
+
+    // Trick to overcome OpenCV issue around CUDA context and multithreading
+    // https://github.com/opencv/opencv/issues/20566
+    auto pParam = std::dynamic_pointer_cast<CInceptionV3Param>(m_pParam);
+    if(pParam->m_backend == cv::dnn::DNN_BACKEND_CUDA && m_bNewInput)
+        size = size + (m_sign * 32);
+
+    return size;
 }
 
 void CInceptionV3::run()
@@ -82,6 +90,14 @@ void CInceptionV3::run()
     emit m_signalHandler->doProgress();
     manageOutput(dnnOutput);
     emit m_signalHandler->doProgress();
+
+    // Trick to overcome OpenCV issue around CUDA context and multithreading
+    // https://github.com/opencv/opencv/issues/20566
+    if(pParam->m_backend == cv::dnn::DNN_BACKEND_CUDA && m_bNewInput)
+    {
+        m_sign *= -1;
+        m_bNewInput = false;
+    }
 }
 
 void CInceptionV3::manageOutput(cv::Mat &dnnOutput)
