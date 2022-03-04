@@ -74,7 +74,7 @@ class INCEPTIONV3SHARED_EXPORT CInceptionV3Factory : public CTaskFactory
                                                "with a computational cost of 5 billion multiply-adds per inference and with using less than 25 million parameters. "
                                                "With an ensemble of 4 models and multi-crop evaluation, we report 3.5% top-5 error and 17.3% top-1 error on the validation set and "
                                                "3.6% top-5 error on the official test set.").toStdString();
-            m_info.m_path = QObject::tr("Plugins/C++/Object/Recognition").toStdString();
+            m_info.m_path = QObject::tr("Plugins/C++/Classification").toStdString();
             m_info.m_iconPath = "Icon/icon.png";
             m_info.m_authors = "Christian Szegedy, Vincent Vanhoucke, Sergei Ioffe, Jon Shlens, Zbigniew Wojna";
             m_info.m_article = "Rethinking the Inception Architecture for Computer Vision";
