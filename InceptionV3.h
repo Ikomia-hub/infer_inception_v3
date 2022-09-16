@@ -82,8 +82,8 @@ class INCEPTIONV3SHARED_EXPORT CInceptionV3Factory : public CTaskFactory
             m_info.m_year = 2016;
             m_info.m_license = "Apache 2 License";
             m_info.m_repo = "https://github.com/tensorflow/models/tree/master/research";
-            m_info.m_keywords = "deep,learning,classification,inception";
-            m_info.m_version = "1.0.0";
+            m_info.m_keywords = "deep,learning,classification,inception," + Utils::Plugin::getArchitectureKeywords();
+            m_info.m_version = "1.1.0";
         }
 
         virtual WorkflowTaskPtr create(const WorkflowTaskParamPtr& pParam) override
