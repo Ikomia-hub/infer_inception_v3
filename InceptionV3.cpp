@@ -50,6 +50,13 @@ void CInceptionV3::run()
     pParam->m_modelFile = pluginDir + "/Model/tensorflow_inception_graph.pb";
     pParam->m_labelsFile = pluginDir + "/Model/imagenet_names.txt";
 
+    if (!Utils::File::isFileExist(pParam->m_modelFile))
+    {
+        std::cout << "Downloading model..." << std::endl;
+        std::string downloadUrl = Utils::Plugin::getModelHubUrl() + "/" + m_name + "/tensorflow_inception_graph.pb";
+        download(downloadUrl, pParam->m_modelFile);
+    }
+
     CMat imgOrigin = pInput->getImage();
     cv::Mat dnnOutput;
     CMat imgSrc;
