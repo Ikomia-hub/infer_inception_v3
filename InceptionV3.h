@@ -3,6 +3,7 @@
 
 #include "Inceptionv3Global.h"
 #include "Process/OpenCV/dnn/COcvDnnProcess.h"
+#include "Core/CClassificationTask.h"
 #include "Widget/OpenCV/dnn/COcvWidgetDnnCore.h"
 #include "CPluginProcessInterface.hpp"
 
@@ -33,21 +34,24 @@ class INCEPTIONV3SHARED_EXPORT CInceptionV3Param: public COcvDnnProcessParam
 //------------------------//
 //----- CInceptionV3 -----//
 //------------------------//
-class INCEPTIONV3SHARED_EXPORT CInceptionV3: public COcvDnnProcess
+class INCEPTIONV3SHARED_EXPORT CInceptionV3: public COcvDnnProcess, public CClassificationTask
 {
     public:
 
         CInceptionV3();
         CInceptionV3(const std::string& name, const std::shared_ptr<CInceptionV3Param>& pParam);
 
-        size_t  getProgressSteps() override;
-        int     getNetworkInputSize() const override;
+        size_t                      getProgressSteps() override;
+        int                         getNetworkInputSize() const override;
+        std::vector<std::string>    getOutputsNames() const override;
+        void                        globalInputChanged(bool bNewSequence) override;
 
         void    run() override;
 
     private:
 
-        void    manageOutput(cv::Mat &dnnOutput);
+        void    manageWholeImageOutput(cv::Mat &dnnOutput);
+        void    manageObjectOutput(cv::Mat &dnnOutput, const ProxyGraphicsItemPtr &objectPtr);
 };
 
 //-------------------------------//
