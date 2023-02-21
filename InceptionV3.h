@@ -3,9 +3,9 @@
 
 #include "Inceptionv3Global.h"
 #include "Process/OpenCV/dnn/COcvDnnProcess.h"
-#include "Core/CClassificationTask.h"
+#include "Task/CClassificationTask.h"
 #include "Widget/OpenCV/dnn/COcvWidgetDnnCore.h"
-#include "CPluginProcessInterface.hpp"
+#include "Core/CPluginProcessInterface.hpp"
 
 //-----------------------------//
 //----- CInceptionV3Param -----//
